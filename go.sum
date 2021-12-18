@@ -681,8 +681,8 @@ github.com/neilotoole/errgroup v0.1.5/go.mod h1:Q2nLGf+594h0CLBs/Mbg6qOr7GtqDK7C
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e h1:fD57ERR4JtEqsWbfPhv4DMiApHyliiK5xCTNVSPiaAs=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
 github.com/nishanths/predeclared v0.0.0-20200524104333-86fad755b4d3/go.mod h1:nt3d53pc1VYcphSCIaYAJtnPYnr3Zyn8fMq2wvPGPso=
-github.com/notional-labs/cosmos-sdk v0.44.5-whisky.0.20211215205319-5fd1a6812d6d h1:b86HHExiUu4bk25w6QVWId5fdqhx12WY0CZ0DkqYOYo=
-github.com/notional-labs/cosmos-sdk v0.44.5-whisky.0.20211215205319-5fd1a6812d6d/go.mod h1:XXS/asyCqWNWkx2rW6pSuen+EVcpAFxq6khrhnZgHaQ=
+github.com/notional-labs/cosmos-sdk v0.44.5-whisky.0.20211218060629-feb73d4cd8b9 h1:DifL5Q+GER/EHKfXenp+648TR5Lhn2NSElIGv/y/aF0=
+github.com/notional-labs/cosmos-sdk v0.44.5-whisky.0.20211218060629-feb73d4cd8b9/go.mod h1:XXS/asyCqWNWkx2rW6pSuen+EVcpAFxq6khrhnZgHaQ=
 github.com/nxadm/tail v1.4.4/go.mod h1:kenIhsEOeOJmVchQTgglprH7qJGnHDVpk1VPCcaMI8A=
 github.com/nxadm/tail v1.4.8 h1:nPr65rt6Y5JFSKQO7qToXr7pePgD6Gwiw05lkbyAQTE=
 github.com/nxadm/tail v1.4.8/go.mod h1:+ncqLTQzXmGhMZNUePPaPqPvBxHAIsmXswZKocGu+AU=
