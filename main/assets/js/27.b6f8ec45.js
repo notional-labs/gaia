@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[27],{457:function(e,n,t){"use strict";t.r(n);var i={mounted(){window.location.assign(this.$site.base+"hub-overview/overview.html")}},s=t(1),o=Object(s.a)(i,(function(){var e=this.$createElement;return(this._self._c||e)("div")}),[],!1,null,null,null);n.default=o.exports}}]);
