@@ -106,7 +106,6 @@ import (
 	tmos "github.com/tendermint/tendermint/libs/os"
 	dbm "github.com/tendermint/tm-db"
 
-	ibctypes "github.com/cosmos/ibc-go/v3/modules/core/02-client/types"
 	ibcprovider "github.com/cosmos/interchain-security/x/ccv/provider"
 	ibcproviderclient "github.com/cosmos/interchain-security/x/ccv/provider/client"
 	ibcproviderkeeper "github.com/cosmos/interchain-security/x/ccv/provider/keeper"
@@ -186,7 +185,7 @@ var (
 // GaiaApp extends an ABCI application, but with most of its parameters exported.
 // They are exported for convenience in creating helper functions, as object
 // capabilities aren't needed for testing.
-type GaiaApp struct { // nolint: golint
+type GaiaApp struct { //nolint: golint
 	*baseapp.BaseApp
 	legacyAmino       *codec.LegacyAmino
 	appCodec          codec.Codec
@@ -932,7 +931,7 @@ func (app *GaiaApp) GetBaseApp() *baseapp.BaseApp {
 	return app.BaseApp
 }
 
-func (app *GaiaApp) GetStakingKeeper() ibctypes.StakingKeeper {
+func (app *GaiaApp) GetStakingKeeper() ibcclienttypes.StakingKeeper {
 	return app.StakingKeeper
 }
 
