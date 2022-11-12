@@ -7,6 +7,8 @@ export GOPATH=~/go
 export PATH=$PATH:~/go/bin
 
 
+
+
 # Install Gaia
 # make install
 
@@ -19,7 +21,7 @@ INTERVAL=1000
 # GET TRUST HASH AND TRUST HEIGHT
 
 LATEST_HEIGHT=$(curl -s https://cosmos-rpc.polkachu.com/block | jq -r .result.block.header.height);
-BLOCK_HEIGHT=$(($LATEST_HEIGHT-$INTERVAL)) 
+BLOCK_HEIGHT=12801337 
 TRUST_HASH=$(curl -s "https://cosmos-rpc.polkachu.com/block?height=$BLOCK_HEIGHT" | jq -r .result.block_id.hash)
 
 
@@ -36,4 +38,5 @@ export GAIAD_STATESYNC_TRUST_HEIGHT=$BLOCK_HEIGHT
 export GAIAD_STATESYNC_TRUST_HASH=$TRUST_HASH
 export GAIAD_P2P_SEEDS="ade4d8bc8cbe014af6ebdf3cb7b1e9ad36f412c0@seeds.polkachu.com:14956"
 
-gaiad start --x-crisis-skip-assert-invariants
+gaiad start --x-crisis-skip-assert-invariants --halt-height 12811337
+gaiad export 2> gaia.json
