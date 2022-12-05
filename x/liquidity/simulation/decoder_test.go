@@ -11,8 +11,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/kv"
 
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/simulation"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/x/liquidity/simulation"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 )
 
 func TestDecodeLiquidityStore(t *testing.T) {
-	cdc := simapp.MakeTestEncodingConfig().Codec
+	cdc := simapp.MakeTestEncodingConfig().Marshaler
 	dec := simulation.NewDecodeStore(cdc)
 
 	pool := types.Pool{

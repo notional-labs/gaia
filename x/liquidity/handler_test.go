@@ -9,9 +9,9 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/gravity-devs/liquidity/v2/app"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/app"
+	"github.com/cosmos/gaia/v8/x/liquidity"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 func TestBadMsg(t *testing.T) {
@@ -237,9 +237,8 @@ func TestMsgServerGetLiquidityPoolMetadata(t *testing.T) {
 
 func TestMsgServerSwap(t *testing.T) {
 	simapp, ctx := app.CreateTestInput()
-	params := types.DefaultParams()
-	params.CircuitBreakerEnabled = true
-	simapp.LiquidityKeeper.SetParams(ctx, params)
+	simapp.LiquidityKeeper.SetParams(ctx, types.DefaultParams())
+	params := simapp.LiquidityKeeper.GetParams(ctx)
 	// init test app and context
 
 	// define test denom X, Y for Liquidity Pool
@@ -281,17 +280,17 @@ func TestMsgServerSwap(t *testing.T) {
 
 	handler := liquidity.NewHandler(simapp.LiquidityKeeper)
 	_, err := handler(ctx, msg1[0])
-	require.ErrorIs(t, err, types.ErrCircuitBreakerEnabled)
+	require.NoError(t, err)
 	_, err = handler(ctx, msg1[1])
-	require.ErrorIs(t, err, types.ErrCircuitBreakerEnabled)
+	require.NoError(t, err)
 	_, err = handler(ctx, msg1[2])
-	require.ErrorIs(t, err, types.ErrCircuitBreakerEnabled)
+	require.NoError(t, err)
 	_, err = handler(ctx, msg4[0])
-	require.ErrorIs(t, err, types.ErrCircuitBreakerEnabled)
+	require.NoError(t, err)
 	batch, found := simapp.LiquidityKeeper.GetPoolBatch(ctx, poolID)
 	require.True(t, found)
 	notProcessedMsgs := simapp.LiquidityKeeper.GetAllNotProcessedPoolBatchSwapMsgStates(ctx, batch)
 	msgs := simapp.LiquidityKeeper.GetAllPoolBatchSwapMsgStatesAsPointer(ctx, batch)
-	require.Equal(t, 0, len(msgs))
-	require.Equal(t, 0, len(notProcessedMsgs))
+	require.Equal(t, 4, len(msgs))
+	require.Equal(t, 4, len(notProcessedMsgs))
 }

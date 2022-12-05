@@ -9,8 +9,8 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/keeper"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/x/liquidity/keeper"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 var (
@@ -59,13 +59,13 @@ func randomLiquidity(r *rand.Rand, k keeper.Keeper, ctx sdk.Context) (pool types
 }
 
 // randomDepositCoin returns deposit amount between more than minimum deposit amount and less than 1e9.
-func randomDepositCoin(r *rand.Rand, minInitDepositAmount sdk.Int, denom string) sdk.Coin { //nolint:staticcheck
+func randomDepositCoin(r *rand.Rand, minInitDepositAmount sdk.Int, denom string) sdk.Coin {
 	amount := int64(simtypes.RandIntBetween(r, int(minInitDepositAmount.Int64()+1), 1e8))
 	return sdk.NewInt64Coin(denom, amount)
 }
 
 // randomWithdrawCoin returns random withdraw amount.
-func randomWithdrawCoin(r *rand.Rand, denom string, balance sdk.Int) sdk.Coin { //nolint:staticcheck
+func randomWithdrawCoin(r *rand.Rand, denom string, balance sdk.Int) sdk.Coin {
 	// prevent panic from RandIntBetween
 	if balance.Quo(sdk.NewInt(10)).Int64() <= 1 {
 		return sdk.NewInt64Coin(denom, 1)
@@ -79,7 +79,7 @@ func randomWithdrawCoin(r *rand.Rand, denom string, balance sdk.Int) sdk.Coin { 
 func randomOfferCoin(r *rand.Rand, k keeper.Keeper, ctx sdk.Context, pool types.Pool, denom string) sdk.Coin {
 	params := k.GetParams(ctx)
 	reserveCoinAmt := k.GetReserveCoins(ctx, pool).AmountOf(denom)
-	maximumOrderableAmt := sdk.NewDecFromInt(reserveCoinAmt).Mul(params.MaxOrderAmountRatio).TruncateInt()
+	maximumOrderableAmt := reserveCoinAmt.ToDec().Mul(params.MaxOrderAmountRatio).TruncateInt()
 	amt := int64(simtypes.RandIntBetween(r, 1, int(maximumOrderableAmt.Int64())))
 	return sdk.NewInt64Coin(denom, amt)
 }

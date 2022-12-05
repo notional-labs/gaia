@@ -12,7 +12,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/types/simulation"
 
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 // Simulation parameter constants
@@ -34,17 +34,17 @@ func GenLiquidityPoolTypes(r *rand.Rand) (liquidityPoolTypes []types.PoolType) {
 }
 
 // GenMinInitDepositAmount randomized MinInitDepositAmount
-func GenMinInitDepositAmount(r *rand.Rand) sdk.Int { //nolint:staticcheck
+func GenMinInitDepositAmount(r *rand.Rand) sdk.Int {
 	return sdk.NewInt(int64(simulation.RandIntBetween(r, int(types.DefaultMinInitDepositAmount.Int64()), 1e7)))
 }
 
 // GenInitPoolCoinMintAmount randomized InitPoolCoinMintAmount
-func GenInitPoolCoinMintAmount(r *rand.Rand) sdk.Int { //nolint:staticcheck
+func GenInitPoolCoinMintAmount(r *rand.Rand) sdk.Int {
 	return sdk.NewInt(int64(simulation.RandIntBetween(r, int(types.DefaultInitPoolCoinMintAmount.Int64()), 1e8)))
 }
 
 // GenMaxReserveCoinAmount randomized MaxReserveCoinAmount
-func GenMaxReserveCoinAmount(r *rand.Rand) sdk.Int { //nolint:staticcheck
+func GenMaxReserveCoinAmount(r *rand.Rand) sdk.Int {
 	return sdk.NewInt(int64(simulation.RandIntBetween(r, int(types.DefaultMaxReserveCoinAmount.Int64()), 1e13)))
 }
 
@@ -98,19 +98,19 @@ func RandomizedGenState(simState *module.SimulationState) {
 		func(r *rand.Rand) { liquidityPoolTypes = GenLiquidityPoolTypes(r) },
 	)
 
-	var minInitDepositAmount sdk.Int //nolint:staticcheck
+	var minInitDepositAmount sdk.Int
 	simState.AppParams.GetOrGenerate(
 		simState.Cdc, MinInitDepositAmount, &minInitDepositAmount, simState.Rand,
 		func(r *rand.Rand) { minInitDepositAmount = GenMinInitDepositAmount(r) },
 	)
 
-	var initPoolCoinMintAmount sdk.Int //nolint:staticcheck
+	var initPoolCoinMintAmount sdk.Int
 	simState.AppParams.GetOrGenerate(
 		simState.Cdc, InitPoolCoinMintAmount, &initPoolCoinMintAmount, simState.Rand,
 		func(r *rand.Rand) { initPoolCoinMintAmount = GenInitPoolCoinMintAmount(r) },
 	)
 
-	var maxReserveCoinAmount sdk.Int //nolint:staticcheck
+	var maxReserveCoinAmount sdk.Int
 	simState.AppParams.GetOrGenerate(
 		simState.Cdc, MaxReserveCoinAmount, &maxReserveCoinAmount, simState.Rand,
 		func(r *rand.Rand) { maxReserveCoinAmount = GenMaxReserveCoinAmount(r) },

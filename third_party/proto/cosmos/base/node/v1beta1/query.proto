@@ -1,5 +1,5 @@
 syntax = "proto3";
-package cosmos.base.node.v1beta1;
+package cosmos.base.node.v1;
 
 import "google/api/annotations.proto";
 
@@ -9,7 +9,7 @@ option go_package = "github.com/cosmos/cosmos-sdk/client/grpc/node";
 service Service {
   // Config queries for the operator configuration.
   rpc Config(ConfigRequest) returns (ConfigResponse) {
-    option (google.api.http).get = "/cosmos/base/node/v1beta1/config";
+    option (google.api.http).get = "/cosmos/base/node/v1/config";
   }
 }
 
@@ -17,6 +17,4 @@ service Service {
 message ConfigRequest {}
 
 // ConfigResponse defines the response structure for the Config gRPC query.
-message ConfigResponse {
-  string minimum_gas_price = 1;
-}
+message ConfigResponse { string minimum_gas_price = 1; }

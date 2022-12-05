@@ -6,7 +6,7 @@ import (
 
 	"github.com/cosmos/cosmos-sdk/types/query"
 
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 func (suite *KeeperTestSuite) TestGRPCLiquidityPool() {
@@ -441,6 +441,17 @@ func (suite *KeeperTestSuite) TestGRPCQueryBatchSwapMsgs() {
 			true,
 			len(msgs),
 			false,
+		},
+		{
+			"valid request",
+			func() {
+				req = &types.QueryPoolBatchSwapMsgsRequest{
+					PoolId:     suite.batches[0].PoolId,
+					Pagination: &query.PageRequest{Limit: 1, CountTotal: true}}
+			},
+			true,
+			1,
+			true,
 		},
 		{
 			"valid request",

@@ -160,7 +160,6 @@ func validatePoolTypes(i interface{}) error {
 	return nil
 }
 
-//nolint:staticcheck,nolintlint
 func validateMinInitDepositAmount(i interface{}) error {
 	v, ok := i.(sdk.Int)
 	if !ok {
@@ -178,7 +177,6 @@ func validateMinInitDepositAmount(i interface{}) error {
 	return nil
 }
 
-//nolint:staticcheck,nolintlint
 func validateInitPoolCoinMintAmount(i interface{}) error {
 	v, ok := i.(sdk.Int)
 	if !ok {
@@ -200,7 +198,6 @@ func validateInitPoolCoinMintAmount(i interface{}) error {
 	return nil
 }
 
-//nolint:staticcheck,nolintlint
 func validateMaxReserveCoinAmount(i interface{}) error {
 	v, ok := i.(sdk.Int)
 	if !ok {
@@ -219,7 +216,7 @@ func validateMaxReserveCoinAmount(i interface{}) error {
 }
 
 func validateSwapFeeRate(i interface{}) error {
-	v, ok := i.(sdk.Dec) //nolint:nolintlint
+	v, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
@@ -240,7 +237,7 @@ func validateSwapFeeRate(i interface{}) error {
 }
 
 func validateWithdrawFeeRate(i interface{}) error {
-	v, ok := i.(sdk.Dec) //nolint:nolintlint
+	v, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}
@@ -261,7 +258,7 @@ func validateWithdrawFeeRate(i interface{}) error {
 }
 
 func validateMaxOrderAmountRatio(i interface{}) error {
-	v, ok := i.(sdk.Dec) //nolint:nolintlint
+	v, ok := i.(sdk.Dec)
 	if !ok {
 		return fmt.Errorf("invalid parameter type: %T", i)
 	}

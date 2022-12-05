@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
 
-	"github.com/gravity-devs/liquidity/v2/app"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity"
-	"github.com/gravity-devs/liquidity/v2/x/liquidity/types"
+	"github.com/cosmos/gaia/v8/app"
+	"github.com/cosmos/gaia/v8/x/liquidity"
+	"github.com/cosmos/gaia/v8/x/liquidity/types"
 )
 
 func TestGenesis(t *testing.T) {
