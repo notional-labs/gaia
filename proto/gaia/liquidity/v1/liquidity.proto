@@ -104,7 +104,7 @@ message Params {
   ];
 
   // Fee paid to create a Liquidity Pool. Set a fee to prevent spamming.
-  repeated cosmos.base.v1.Coin pool_creation_fee = 5 [
+  repeated cosmos.base.v1beta1.Coin pool_creation_fee = 5 [
     (gogoproto.moretags) = "yaml:\"pool_creation_fee\"",
     (gogoproto.nullable) = false,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
@@ -235,7 +235,7 @@ message PoolMetadata {
   ];
 
   // pool coin issued at the pool
-  cosmos.base.v1.Coin pool_coin_total_supply = 2 [
+  cosmos.base.v1beta1.Coin pool_coin_total_supply = 2 [
     (gogoproto.moretags) = "yaml:\"pool_coin_total_supply\"",
     (gogoproto.nullable) = false,
     (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
@@ -247,7 +247,7 @@ message PoolMetadata {
   ];
 
   // reserve coins deposited in the pool
-  repeated cosmos.base.v1.Coin reserve_coins = 3 [
+  repeated cosmos.base.v1beta1.Coin reserve_coins = 3 [
     (gogoproto.moretags) = "yaml:\"reserve_coins\"",
     (gogoproto.nullable) = false,
     (gogoproto.castrepeated) = "github.com/cosmos/cosmos-sdk/types.Coins",
@@ -487,7 +487,7 @@ message SwapMsgState {
   ];
 
   // offer coin exchanged until now
-  cosmos.base.v1.Coin exchanged_offer_coin = 7 [
+  cosmos.base.v1beta1.Coin exchanged_offer_coin = 7 [
     (gogoproto.nullable) = false,
     (gogoproto.moretags) = "yaml:\"exchanged_offer_coin\"",
     (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
@@ -497,7 +497,7 @@ message SwapMsgState {
   ];
 
   // offer coin currently remaining to be exchanged
-  cosmos.base.v1.Coin remaining_offer_coin = 8 [
+  cosmos.base.v1beta1.Coin remaining_offer_coin = 8 [
     (gogoproto.nullable) = false,
     (gogoproto.moretags) = "yaml:\"remaining_offer_coin\"",
     (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
@@ -507,7 +507,7 @@ message SwapMsgState {
   ];
 
   // reserve fee for pays fee in half offer coin
-  cosmos.base.v1.Coin reserved_offer_coin_fee = 9 [
+  cosmos.base.v1beta1.Coin reserved_offer_coin_fee = 9 [
     (gogoproto.nullable) = false,
     (gogoproto.moretags) = "yaml:\"reserved_offer_coin_fee\"",
     (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
