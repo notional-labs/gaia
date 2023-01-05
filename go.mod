@@ -10,7 +10,7 @@ require (
 	github.com/golang/protobuf v1.5.2
 	github.com/golangci/golangci-lint v1.50.1
 	github.com/gorilla/mux v1.8.0
-	github.com/gravity-devs/liquidity v1.5.1
+	github.com/gravity-devs/liquidity v1.5.3
 	github.com/grpc-ecosystem/grpc-gateway v1.16.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rakyll/statik v0.1.7
@@ -20,7 +20,7 @@ require (
 	github.com/spf13/viper v1.14.0 // indirect
 	github.com/strangelove-ventures/packet-forward-middleware/v3 v3.0.0
 	github.com/stretchr/testify v1.8.1
-	github.com/tendermint/tendermint v0.34.23
+	github.com/tendermint/tendermint v0.34.24
 	github.com/tendermint/tm-db v0.6.7
 	google.golang.org/genproto v0.0.0-20221024183307-1bc688fe9f3e
 	google.golang.org/grpc v1.50.1
