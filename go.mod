@@ -3,7 +3,7 @@ module github.com/cosmos/gaia/v8
 go 1.18
 
 require (
-	github.com/cosmos/cosmos-sdk v0.45.12
+	github.com/cosmos/cosmos-sdk v0.45.13
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/ibc-go/v3 v3.4.0
 	github.com/gogo/protobuf v1.3.3
@@ -284,12 +284,12 @@ replace (
 	// Use cosmos keyring
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 
+	// Revert to Conifo's ICS23 implementation, with a version bump, post Dragonberry
+	github.com/confio/ics23/go => github.com/confio/ics23/go v0.9.0
+
 	// enforce same SDK and IBC on all dependencies
 	github.com/cosmos/cosmos-sdk => github.com/cosmos/cosmos-sdk v0.45.12
 	github.com/cosmos/ibc-go/v3 => github.com/cosmos/ibc-go/v3 v3.4.0
-
-	// Revert to Conifo's ICS23 implementation, with a version bump, post Dragonberry
-	github.com/confio/ics23/go => github.com/confio/ics23/go v0.9.0
 
 	// TODO: remove it: https://github.com/cosmos/cosmos-sdk/issues/13134
 	github.com/dgrijalva/jwt-go => github.com/golang-jwt/jwt/v4 v4.4.2
