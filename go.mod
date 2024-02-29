@@ -19,6 +19,7 @@ require (
 	github.com/google/gofuzz v1.2.0
 	github.com/gorilla/mux v1.8.1
 	github.com/ory/dockertest/v3 v3.10.0
+	github.com/osmosis-labs/fee-abstraction/v7 v7.0.0-20240131075031-98a1a3d0cae5
 	github.com/rakyll/statik v0.1.7
 	github.com/spf13/cast v1.6.0
 	github.com/spf13/cobra v1.8.0

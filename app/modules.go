@@ -57,6 +57,9 @@ import (
 
 	gaiaappparams "github.com/cosmos/gaia/v15/app/params"
 	"github.com/cosmos/gaia/v15/x/globalfee"
+
+	feeabsmodule "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs"
+	feeabstypes "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/types"
 )
 
 var maccPerms = map[string][]string{
@@ -70,6 +73,12 @@ var maccPerms = map[string][]string{
 	// liquiditytypes.ModuleName:         {authtypes.Minter, authtypes.Burner},
 	ibctransfertypes.ModuleName:       {authtypes.Minter, authtypes.Burner},
 	providertypes.ConsumerRewardsPool: nil,
+	feeabstypes.ModuleName:            nil,
+}
+
+// module accounts that are allowed to receive tokens
+var allowedReceivingModAcc = map[string]bool{
+	feeabstypes.ModuleName: true,
 }
 
 // ModuleBasics defines the module BasicManager is in charge of setting up basic,
@@ -93,6 +102,9 @@ var ModuleBasics = module.NewBasicManager(
 			icsproviderclient.ConsumerAdditionProposalHandler,
 			icsproviderclient.ConsumerRemovalProposalHandler,
 			icsproviderclient.ChangeRewardDenomsProposalHandler,
+			feeabsmodule.UpdateAddHostZoneClientProposalHandler,
+			feeabsmodule.UpdateDeleteHostZoneClientProposalHandler,
+			feeabsmodule.UpdateSetHostZoneClientProposalHandler,
 		},
 	),
 	sdkparams.AppModuleBasic{},
@@ -111,6 +123,7 @@ var ModuleBasics = module.NewBasicManager(
 	globalfee.AppModule{},
 	icsprovider.AppModuleBasic{},
 	consensus.AppModuleBasic{},
+	feeabsmodule.AppModuleBasic{},
 )
 
 func appModules(
@@ -149,6 +162,7 @@ func appModules(
 		app.ICAModule,
 		app.PFMRouterModule,
 		app.ProviderModule,
+		feeabsmodule.NewAppModule(appCodec, app.FeeabsKeeper),
 	}
 }
 
@@ -209,6 +223,7 @@ func orderBeginBlockers() []string {
 		crisistypes.ModuleName,
 		ibcexported.ModuleName,
 		ibctransfertypes.ModuleName,
+		feeabstypes.ModuleName,
 		icatypes.ModuleName,
 		pfmroutertypes.ModuleName,
 		genutiltypes.ModuleName,
@@ -237,6 +252,7 @@ func orderEndBlockers() []string {
 		stakingtypes.ModuleName,
 		ibcexported.ModuleName,
 		ibctransfertypes.ModuleName,
+		feeabstypes.ModuleName,
 		icatypes.ModuleName,
 		pfmroutertypes.ModuleName,
 		capabilitytypes.ModuleName,
@@ -280,6 +296,7 @@ func orderInitBlockers() []string {
 		genutiltypes.ModuleName,
 		ibctransfertypes.ModuleName,
 		ibcexported.ModuleName,
+		feeabstypes.ModuleName,
 		icatypes.ModuleName,
 		evidencetypes.ModuleName,
 		authz.ModuleName,

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"github.com/gorilla/mux"
 	"github.com/rakyll/statik/fs"
@@ -50,6 +51,8 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/crisis"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	// feeabstypes "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/types"
 
 	gaiaante "github.com/cosmos/gaia/v15/ante"
 	"github.com/cosmos/gaia/v15/app/keepers"
@@ -285,12 +288,19 @@ func (app *GaiaApp) LoadHeight(height int64) error {
 
 // ModuleAccountAddrs returns all the app's module account addresses.
 func (app *GaiaApp) ModuleAccountAddrs() map[string]bool {
-	modAccAddrs := make(map[string]bool)
-	for acc := range maccPerms {
-		modAccAddrs[authtypes.NewModuleAddress(acc).String()] = true
+	blockedAddrs := make(map[string]bool)
+
+	accs := make([]string, 0, len(maccPerms))
+	for k := range maccPerms {
+		accs = append(accs, k)
+	}
+	sort.Strings(accs)
+
+	for _, acc := range accs {
+		blockedAddrs[authtypes.NewModuleAddress(acc).String()] = !allowedReceivingModAcc[acc]
 	}
 
-	return modAccAddrs
+	return blockedAddrs
 }
 
 // BlockedModuleAccountAddrs returns all the app's blocked module account

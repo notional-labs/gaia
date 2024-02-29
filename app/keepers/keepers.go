@@ -69,6 +69,10 @@ import (
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
 
 	"github.com/cosmos/gaia/v15/x/globalfee"
+
+	feeabsmodule "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs"
+	feeabskeeper "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/keeper"
+	feeabstypes "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/types"
 )
 
 type AppKeepers struct {
@@ -114,6 +118,9 @@ type AppKeepers struct {
 	ScopedTransferKeeper    capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper     capabilitykeeper.ScopedKeeper
 	ScopedIBCProviderKeeper capabilitykeeper.ScopedKeeper
+	ScopedFeeabsKeeper      capabilitykeeper.ScopedKeeper
+
+	FeeabsKeeper feeabskeeper.Keeper
 }
 
 func NewAppKeeper(
@@ -171,6 +178,7 @@ func NewAppKeeper(
 	appKeepers.ScopedICAHostKeeper = appKeepers.CapabilityKeeper.ScopeToModule(icahosttypes.SubModuleName)
 	appKeepers.ScopedTransferKeeper = appKeepers.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	appKeepers.ScopedIBCProviderKeeper = appKeepers.CapabilityKeeper.ScopeToModule(providertypes.ModuleName)
+	appKeepers.ScopedFeeabsKeeper = appKeepers.CapabilityKeeper.ScopeToModule(feeabstypes.ModuleName)
 
 	// Applications that wish to enforce statically created ScopedKeepers should call `Seal` after creating
 	// their scoped modules in `NewApp` with `ScopeToModule`
@@ -315,6 +323,21 @@ func NewAppKeeper(
 
 	appKeepers.ProviderModule = ibcprovider.NewAppModule(&appKeepers.ProviderKeeper, appKeepers.GetSubspace(providertypes.ModuleName))
 
+	appKeepers.FeeabsKeeper = feeabskeeper.NewKeeper(
+		appCodec,
+		appKeepers.keys[feeabstypes.StoreKey],
+		appKeepers.GetSubspace(feeabstypes.ModuleName),
+		appKeepers.StakingKeeper,
+		appKeepers.AccountKeeper,
+		appKeepers.BankKeeper,
+		appKeepers.TransferKeeper,
+		appKeepers.IBCKeeper.ChannelKeeper,
+		&appKeepers.IBCKeeper.PortKeeper,
+		appKeepers.ScopedFeeabsKeeper,
+	)
+
+	feeabsIBCModule := feeabsmodule.NewIBCModule(appCodec, appKeepers.FeeabsKeeper)
+
 	// Register the proposal types
 	// Deprecated: Avoid adding new handlers, instead use the new proposal flow
 	// by granting the governance module the right to execute the message.
@@ -325,7 +348,8 @@ func NewAppKeeper(
 		AddRoute(paramproposal.RouterKey, params.NewParamChangeProposalHandler(appKeepers.ParamsKeeper)).
 		AddRoute(upgradetypes.RouterKey, upgrade.NewSoftwareUpgradeProposalHandler(appKeepers.UpgradeKeeper)).
 		AddRoute(ibcclienttypes.RouterKey, ibcclient.NewClientProposalHandler(appKeepers.IBCKeeper.ClientKeeper)).
-		AddRoute(providertypes.RouterKey, ibcprovider.NewProviderProposalHandler(appKeepers.ProviderKeeper))
+		AddRoute(providertypes.RouterKey, ibcprovider.NewProviderProposalHandler(appKeepers.ProviderKeeper)).
+		AddRoute(feeabstypes.RouterKey, feeabsmodule.NewHostZoneProposal(appKeepers.FeeabsKeeper))
 
 	// Set legacy router for backwards compatibility with gov v1beta1
 	appKeepers.GovKeeper.SetLegacyRouter(govRouter)
@@ -410,7 +434,8 @@ func NewAppKeeper(
 	ibcRouter := porttypes.NewRouter().
 		AddRoute(icahosttypes.SubModuleName, icaHostStack).
 		AddRoute(ibctransfertypes.ModuleName, transferStack).
-		AddRoute(providertypes.ModuleName, appKeepers.ProviderModule)
+		AddRoute(providertypes.ModuleName, appKeepers.ProviderModule).
+		AddRoute(feeabstypes.ModuleName, feeabsIBCModule)
 
 	appKeepers.IBCKeeper.SetRouter(ibcRouter)
 
@@ -445,6 +470,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(pfmroutertypes.ModuleName).WithKeyTable(pfmroutertypes.ParamKeyTable())
 	paramsKeeper.Subspace(globalfee.ModuleName)
 	paramsKeeper.Subspace(providertypes.ModuleName)
+	paramsKeeper.Subspace(feeabstypes.ModuleName)
 
 	return paramsKeeper
 }

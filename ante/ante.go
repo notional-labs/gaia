@@ -14,6 +14,9 @@ import (
 
 	gaiaerrors "github.com/cosmos/gaia/v15/types/errors"
 	gaiafeeante "github.com/cosmos/gaia/v15/x/globalfee/ante"
+
+	feeabsante "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/ante"
+	feeabskeeper "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/keeper"
 )
 
 // HandlerOptions extend the SDK's AnteHandler options by requiring the IBC
@@ -25,6 +28,7 @@ type HandlerOptions struct {
 	GlobalFeeSubspace paramtypes.Subspace
 	StakingKeeper     *stakingkeeper.Keeper
 	TxFeeChecker      ante.TxFeeChecker
+	FeeAbskeeper      feeabskeeper.Keeper
 }
 
 func NewAnteHandler(opts HandlerOptions) (sdk.AnteHandler, error) {
@@ -57,10 +61,12 @@ func NewAnteHandler(opts HandlerOptions) (sdk.AnteHandler, error) {
 	anteDecorators := []sdk.AnteDecorator{
 		ante.NewSetUpContextDecorator(), // outermost AnteDecorator. SetUpContext must be called first
 		ante.NewExtensionOptionsDecorator(opts.ExtensionOptionChecker),
+		feeabsante.NewFeeAbstrationMempoolFeeDecorator(opts.FeeAbskeeper),
 		ante.NewValidateBasicDecorator(),
 		ante.NewTxTimeoutHeightDecorator(),
 		ante.NewValidateMemoDecorator(opts.AccountKeeper),
 		ante.NewConsumeGasForTxSizeDecorator(opts.AccountKeeper),
+		feeabsante.NewFeeAbstractionDeductFeeDecorate(opts.AccountKeeper, opts.BankKeeper, opts.FeeAbskeeper, opts.FeegrantKeeper),
 		NewGovVoteDecorator(opts.Codec, opts.StakingKeeper),
 		gaiafeeante.NewFeeDecorator(opts.GlobalFeeSubspace, opts.StakingKeeper),
 		ante.NewDeductFeeDecorator(opts.AccountKeeper, opts.BankKeeper, opts.FeegrantKeeper, opts.TxFeeChecker),

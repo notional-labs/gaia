@@ -24,6 +24,8 @@ import (
 	slashingtypes "github.com/cosmos/cosmos-sdk/x/slashing/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 	upgradetypes "github.com/cosmos/cosmos-sdk/x/upgrade/types"
+
+	feeabstypes "github.com/osmosis-labs/fee-abstraction/v7/x/feeabs/types"
 )
 
 func (appKeepers *AppKeepers) GenerateKeys() {
@@ -43,6 +45,7 @@ func (appKeepers *AppKeepers) GenerateKeys() {
 		upgradetypes.StoreKey,
 		evidencetypes.StoreKey,
 		ibctransfertypes.StoreKey,
+		feeabstypes.StoreKey,
 		icahosttypes.StoreKey,
 		capabilitytypes.StoreKey,
 		feegrant.StoreKey,
