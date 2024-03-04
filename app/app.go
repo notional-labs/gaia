@@ -233,6 +233,7 @@ func NewGaiaApp(
 			// If TxFeeChecker is nil the default ante TxFeeChecker is used
 			// so we use this no-op to keep the global fee module behaviour unchanged
 			TxFeeChecker: noOpTxFeeChecker,
+			FeeAbskeeper: app.FeeabsKeeper,
 		},
 	)
 	if err != nil {

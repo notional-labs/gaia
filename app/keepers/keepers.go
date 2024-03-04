@@ -470,7 +470,7 @@ func initParamsKeeper(appCodec codec.BinaryCodec, legacyAmino *codec.LegacyAmino
 	paramsKeeper.Subspace(pfmroutertypes.ModuleName).WithKeyTable(pfmroutertypes.ParamKeyTable())
 	paramsKeeper.Subspace(globalfee.ModuleName)
 	paramsKeeper.Subspace(providertypes.ModuleName)
-	paramsKeeper.Subspace(feeabstypes.ModuleName)
+	paramsKeeper.Subspace(feeabstypes.ModuleName).WithKeyTable(feeabstypes.ParamKeyTable())
 
 	return paramsKeeper
 }
